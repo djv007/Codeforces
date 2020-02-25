@@ -1,41 +1,42 @@
-#include<cstdio>
-#include<algorithm>
-#include<cstring>
+#include <bits/stdc++.h>
+
 using namespace std;
-int t,n,m,a[105];
-bool flag[105];
-int main()
-{
-	scanf("%d",&t);
-	while(t--)
-	{
-		memset(flag,0,sizeof(flag));
-		scanf("%d%d",&n,&m);
-		for(int i=1;i<=n;i++)scanf("%d",&a[i]);
-		for(int i=1;i<=m;i++)
-		{
-			int x;
-			scanf("%d",&x);
-			flag[x]=1;
+
+int main() {
+#ifdef _DEBUG
+	//freopen("input.txt", "r", stdin);
+//	freopen("output.txt", "w", stdout);
+#endif
+	
+	int t;
+	cin >> t;
+	while (t--) {
+		int n, m;
+		cin >> n >> m;
+		vector<int> a(n);
+		for (int i = 0; i < n; ++i) {
+			cin >> a[i];
 		}
-		for(int i=1;i<=n;)
-		{
-			int j=i;
-			while(flag[j])j++;
-			sort(a+i,a+j+1);
-			i=j+1;
+		vector<int> p(n);
+		for (int i = 0; i < m; ++i) {
+			int pos;
+			cin >> pos;
+			p[pos - 1] = 1;
 		}
-		bool f=1;
-		for(int i=2;i<=n;i++)
-		{
-			if(a[i]<a[i-1])
-			{
-				printf("NO\n");
-				f=0;
-				break;
-			}
+		for (int i = 0; i < n; ++i) {
+			if (p[i] == 0) continue;
+			int j = i;
+			while (j < n && p[j]) ++j;
+			sort(a.begin() + i, a.begin() + j + 1);
+			i = j;
 		}
-		if(f)puts("YES");
+		bool ok = true;
+		for (int i = 0; i < n - 1; ++i) {
+			ok &= a[i] <= a[i + 1];
+		}
+		if (ok) cout << "YES" << endl;
+		else cout << "NO" << endl;
 	}
+	
 	return 0;
 }
